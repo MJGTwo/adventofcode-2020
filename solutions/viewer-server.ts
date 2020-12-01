@@ -1,6 +1,6 @@
 import express from "express";
 import { find, write, position } from "promise-path";
-import { reportGenerator } from "../util";
+import { reportGenerator } from "./util";
 import packageData from "../package.json";
 
 const report = reportGenerator(__filename);
