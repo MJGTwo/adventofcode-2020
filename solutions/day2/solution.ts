@@ -1,5 +1,5 @@
 import { read, position } from "promise-path";
-import { reportGenerator, ints } from "../util";
+import { reportGenerator } from "../util";
 import { performance } from "perf_hooks";
 
 const report = reportGenerator(__filename);
@@ -8,8 +8,7 @@ const fromHere = position(__dirname);
 interface Password {
   min: number;
   max: number;
-  letter: string;
-  password: string;
+  password: boolean[];
 }
 
 export async function run(day: string) {
@@ -27,7 +26,11 @@ const parser = (input: string) =>
     .map(parseLine)
     .map(
       ([, min, max, letter, password]) =>
-        ({ min: +min, max: +max, letter, password } as Password)
+        ({
+          min: +min,
+          max: +max,
+          password: password.split("").map((char) => char === letter),
+        } as Password)
     );
 const parseLine = (input: string): RegExpExecArray =>
   /(\d+)-(\d+) ([a-z]): ([a-z]+)/g.exec(input)!;
@@ -37,10 +40,10 @@ async function solveForFirstStar(input: Password[]) {
   const t0 = performance.now();
 
   solution = input
-    .map(({ min, max, letter, password }) => ({
+    .map(({ password, min, max }) => ({
       min,
       max,
-      number: password.split("").filter((char) => char === letter).length,
+      number: password.filter((char) => char).length,
     }))
     .reduce(
       (count, { min, max, number }) =>
@@ -59,17 +62,13 @@ async function solveForSecondStar(input: Password[]) {
   const t0 = performance.now();
 
   solution = input
-    .map(({ min, max, password, letter }) => ({
-      letter,
+    .map(({ min, max, password }) => ({
       first: password[min - 1],
       second: password[max - 1],
     }))
     .reduce(
-      (count, { letter, first, second }) =>
-        (letter === first && letter !== second) ||
-        (letter !== first && letter === second)
-          ? count + 1
-          : count,
+      (count, { first, second }) =>
+        (first && !second) || (!first && second) ? count + 1 : count,
       0
     );
   const t1 = performance.now();
