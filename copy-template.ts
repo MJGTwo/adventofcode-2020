@@ -1,6 +1,6 @@
 import path from "path";
 import { make, find, read, write, run, position } from "promise-path";
-import { reportGenerator } from "./util";
+import { reportGenerator } from "./solutions/util";
 
 const report = reportGenerator(__filename);
 const fromHere = position(__dirname);

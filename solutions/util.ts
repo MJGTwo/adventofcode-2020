@@ -47,3 +47,19 @@ export const minMax = (...nums: number[]): [number, number] => [
 
 export const maxMinusMin = (...nums: number[]): number =>
   Math.max(...nums) - Math.min(...nums);
+
+export const mergeSort = (list: number[]): number[] => {
+  //base case
+  if (list.length <= 1) return list;
+  //divide
+  const mid = Math.floor(list.length / 2);
+  const left = mergeSort(list.slice(0, mid));
+  const right = mergeSort(list.slice(mid));
+  //merge
+  const sorted: number[] = [];
+  while (left.length && right.length) {
+    if (left[0] < right[0]) sorted.push(left.shift()!);
+    else sorted.push(right.shift()!);
+  }
+  return sorted.concat(left.slice().concat(right.slice()));
+};
