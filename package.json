@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "itertools": "^1.6.1",
     "pre-push": "*",
     "promise-path": "*",
     "stats-lite": "*"
