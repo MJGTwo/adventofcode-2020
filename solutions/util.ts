@@ -40,6 +40,9 @@ export const positiveFloats = (str: string): number[] =>
 
 export const words = (str: string): string[] => str.match(/[a-zA-Z]+/g)!;
 
+export const sum = (...numbers: number[]): number =>
+  numbers.reduce((sum, curr) => sum + curr, 0);
+
 export const minMax = (...nums: number[]): [number, number] => [
   Math.min(...nums),
   Math.max(...nums),

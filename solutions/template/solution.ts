@@ -8,8 +8,8 @@ const fromHere = position(__dirname);
 export async function run(day: string) {
   const input = (await read(fromHere("input.txt"), "utf8")).trim();
 
-  await solveForFirstStar(ints(input));
-  await solveForSecondStar(ints(input));
+  await solveForFirstStar(input);
+  await solveForSecondStar(input);
 }
 
 async function solveForFirstStar(input) {
