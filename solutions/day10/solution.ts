@@ -1,5 +1,5 @@
 import { read, position } from "promise-path";
-import { reportGenerator, ints } from "../util";
+import { reportGenerator, ints, sum as summation } from "../util";
 import { performance } from "perf_hooks";
 
 const report = reportGenerator(__filename);
@@ -12,10 +12,18 @@ export async function run(day: string) {
   await solveForSecondStar(ints(input));
 }
 
-const tribonacciSequence: number[] = [1, 1, 2, 4, 7, 13, 24, 44, 81, 149];
+const tribonacciSequence: number[] = [1, 1, 2];
+
 const getTribonacci = (num: number): number => {
-  if (num > tribonacciSequence.length) {
-    throw `Can't calculate tribonacci number for ${num}`;
+  while (num > tribonacciSequence.length) {
+    tribonacciSequence.push(
+      summation(
+        ...tribonacciSequence.slice(
+          tribonacciSequence.length - 3,
+          tribonacciSequence.length + 1
+        )
+      )
+    );
   }
 
   return tribonacciSequence[num - 1];
@@ -50,7 +58,7 @@ async function solveForFirstStar(input: number[]) {
     const difference = adapters[index] - adapters[index - 1];
     differences[difference]++;
   });
-  console.log(adapters);
+
   console.log(differences);
   //stuff
 
